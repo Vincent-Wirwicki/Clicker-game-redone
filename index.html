@@ -10,50 +10,72 @@
   <body>
     <div id="container">
       <div class="game">
+        <div class="score">
+          <h3>Income : <span class="ressources__income"></span> $</h3>
+          <h3>Pollution : <span class="ressources__pollution"></span> g CO²</h3>
+        </div>
         <div class="wrapper factory">
           <button class="factory__btn">Income</button>
           <div class="upgrade">
-            <!-- <h3 class="factory__upgrade__cost"><span></span></h3> -->
+            <div class="upgrade__info">
+              <p>
+                cost: -<span class="factory__upgrade__info"></span>
+                $ / prod: +
+                <span class="factory__upgrade__info"></span>
+                / pol:
+                <span class="factory__upgrade__info"></span>
+              </p>
+            </div>
             <button class="factory__upgrade__btn">MORE INCOME PER CLICK</button>
-            <h3>Income : <span class="ressources__income"></span> $</h3>
           </div>
         </div>
         <div class="wrapper green__ticket">
           <button class="green__ticket__btn">Pollution</button>
           <div class="upgrade">
+            <div class="upgrade__info">
+              <p>
+                cost: -<span class="greenTicket__upgrade__info"></span>
+                $ / prod: +
+                <span class="greenTicket__upgrade__info"></span>
+                / pol:
+                <span class="greenTicket__upgrade__info"></span>
+              </p>
+            </div>
             <button class="greenTicket__upgrade__btn">
               LESS POLLUTION PER CLICK
             </button>
-            <h3>
-              Pollution : <span class="ressources__pollution"></span> g CO²
-            </h3>
           </div>
         </div>
         <div class="wrapper robot">
           <button class="robot__btn">robot</button>
           <div class="upgrade">
-            <button class="robot__upgrade__btn">
-              LESS POLLUTION PER CLICK
-            </button>
-            <h3>
-              Pollution : <span class="ressources__pollution"></span> g CO²
-            </h3>
+            <div class="upgrade__info">
+              <p>
+                cost: -<span class="robot__upgrade__info"></span>
+                $ / prod: +
+                <span class="robot__upgrade__info"></span>
+                / pol:
+                <span class="robot__upgrade__info"></span>
+              </p>
+              <!-- <button class="robot__upgrade__btn">upgrade robot</button> -->
+            </div>
           </div>
         </div>
         <div class="wrapper tree">
           <button class="tree__btn">tree</button>
           <div class="upgrade">
-            <button class="tree__upgrade__btn">LESS POLLUTION PER CLICK</button>
-            <h3>
-              Pollution : <span class="ressources__pollution"></span> g CO²
-            </h3>
+            <div class="upgrade__info">
+              <p>
+                cost: -<span class="tree__upgrade__info"></span>
+                $ / prod: +
+                <span class="tree__upgrade__info"></span>
+                / pol:
+                <span class="tree__upgrade__info"></span>
+              </p>
+            </div>
+            <!-- <button class="tree__upgrade__btn">upgrade tree</button> -->
           </div>
         </div>
-
-        <!-- <div class="ressources">
-          <h3>Income : <span class="ressources__income"></span> $</h3>
-          <h3>Pollution : <span class="ressources__pollution"></span> g CO²</h3>
-        </div> -->
       </div>
     </div>
     <script src="js/game.js"></script>
