@@ -1,21 +1,32 @@
+const displayIncome = document.querySelector(".ressources__income");
+const displayPollution = document.querySelector(".ressources__pollution");
 const factoryBtn = document.querySelector(".factory__btn");
 const factoryUpgradeBtn = document.querySelector(".factory__upgrade__btn");
+const factoryUpgradeInfo = [
+  ...document.querySelectorAll(".factory__upgrade__info"),
+];
 const greenTicketBtn = document.querySelector(".green__ticket__btn");
 const greenTicketUpgradeBtn = document.querySelector(
   ".greenTicket__upgrade__btn"
 );
+const greenTicketUpgradeInfo = [
+  ...document.querySelectorAll(".greenTicket__upgrade__info"),
+];
 const robotBtn = document.querySelector(".robot__btn");
 const robotUpgradeBtn = document.querySelector(".robot__upgrade__btn");
+const robotUpgradeInfo = [
+  ...document.querySelectorAll(".robot__upgrade__info"),
+];
 const treeBtn = document.querySelector(".tree__btn");
 const treeUpgradeBtn = document.querySelector(".tree__upgrade__btn");
-const displayIncome = document.querySelector(".ressources__income");
-const displayPollution = document.querySelector(".ressources__pollution");
+const treeUpgradeInfo = [...document.querySelectorAll(".tree__upgrade__info")];
 
-let intervalRobot,
-  intervalTree,
+let robotInterval,
+  treeinterval,
   income = 0,
   pollution = 0,
-  tick = 1000;
+  robotTick = 1000,
+  treeTick = 1000;
 
 class PerClick {
   constructor(cost, production, pollution) {
@@ -26,8 +37,17 @@ class PerClick {
 }
 
 class Upgrade {
-  constructor(DOMel, cost, nextUpgrade, pollution, production, isActive) {
-    this.DOMel = DOMel;
+  constructor(
+    DOMBtn,
+    DOMDisplay,
+    cost,
+    nextUpgrade,
+    pollution,
+    production,
+    isActive
+  ) {
+    this.DOMBtn = DOMBtn;
+    this.DOMDisplay = DOMDisplay;
     this.cost = cost;
     this.nextUpgrade = nextUpgrade;
     this.pollution = pollution;
@@ -42,10 +62,26 @@ const cssAddRemoveClass = (el, add, remove) => {
 };
 
 const upgrades = {
-  factory: new Upgrade(factoryUpgradeBtn, 10, 2, 10, 10, false),
-  greenTicket: new Upgrade(greenTicketUpgradeBtn, 5, 4, 3, 0, false),
-  robot: new Upgrade(robotBtn, 5, 10, 20, 10, false),
-  tree: new Upgrade(treeBtn, 300, 10, 10, 10, false),
+  factory: new Upgrade(
+    factoryUpgradeBtn,
+    factoryUpgradeInfo,
+    10,
+    2,
+    10,
+    10,
+    false
+  ),
+  greenTicket: new Upgrade(
+    greenTicketUpgradeBtn,
+    greenTicketUpgradeInfo,
+    5,
+    4,
+    3,
+    1,
+    false
+  ),
+  robot: new Upgrade(robotBtn, robotUpgradeInfo, 5, 10, 20, 10, false),
+  tree: new Upgrade(treeBtn, treeUpgradeInfo, 30, 15, 40, 20, false),
 };
 
 const factory = {
@@ -75,6 +111,7 @@ const greenTicket = {
     if (income >= greenTicket.perClick.cost) {
       income -= greenTicket.perClick.cost;
       pollution -= greenTicket.perClick.pollution;
+      greenTicket.displayUpgradeInfo();
     }
   },
   onUpgrade: () => {
@@ -88,6 +125,7 @@ const greenTicket = {
 };
 
 const robot = {
+  display: () => {},
   prod: () => {
     income += upgrades.robot.production;
     pollution += upgrades.robot.pollution;
@@ -95,7 +133,7 @@ const robot = {
   onClick: () => {
     if (income >= upgrades.robot.cost && !upgrades.robot.isActive) {
       income -= upgrades.robot.cost;
-      setInterval(robot.calcProd, tick);
+      setInterval(robot.prod, tick);
       upgrades.robot.isActive = true;
     }
     if (income >= upgrades.robot.cost && upgrades.robot.isActive)
@@ -112,7 +150,7 @@ const tree = {
   onClick: () => {
     if (income >= upgrades.tree.cost && !upgrades.robot.isActive) {
       income -= upgrades.tree.cost;
-      setInterval(tree.calcProd, tick);
+      setInterval(tree.prod, tick);
     }
     if (income >= upgrades.robot.cost && upgrades.robot.isActive)
       tree.onUpgrade();
@@ -149,10 +187,14 @@ const treshold = {
 
 const checkUpgrades = () => {
   for (let upgrade in upgrades) {
-    const { cost, DOMel, isActive } = upgrades[upgrade];
+    const { cost, DOMBtn, DOMDisplay, production, pollution, isActive } =
+      upgrades[upgrade];
+    DOMDisplay[0].innerText = cost;
+    DOMDisplay[1].innerText = production;
+    DOMDisplay[2].innerText = pollution;
     income >= cost
-      ? cssAddRemoveClass(DOMel, "enough", "not__enough")
-      : cssAddRemoveClass(DOMel, "not__enough", "enough");
+      ? cssAddRemoveClass(DOMBtn, "enough", "not__enough")
+      : cssAddRemoveClass(DOMBtn, "not__enough", "enough");
     isActive && DOMel.classList.remove("not__enough");
   }
 };
@@ -173,16 +215,3 @@ const game = () => {
 };
 
 game();
-
-// const cheatForDev = () => {
-//   let clicked = 0;
-//   console.log(
-//     "I see you checking the console....Please don't change any var...The game is perfectly fair ^^' or just click for a while "
-//   );
-//   window.addEventListener("click", () => clicked++);
-//   setTimeout(() => {
-//     console.log("income = treshold.win +1 to win");
-//     console.log("krkesq = treshold.win +1 to win");
-//   }, 1000000 - clicked);
-// };
-// cheatForDev();
