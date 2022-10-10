@@ -1,0 +1,86 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@import url(/css/reset.css);
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@300&display=swap");
+
+body {
+  font-family: "Figtree", sans-serif;
+  color: #fff;
+}
+
+span {
+  display: inline-block;
+}
+
+button {
+  background: none;
+  border: solid #fff 1px;
+  padding: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.flex__center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#container {
+  width: 100%;
+  height: 100vh;
+  background: #252624;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game {
+  border: 1px solid #fff;
+  width: 85vw;
+  height: 85vh;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+
+  border: #fff 1px solid;
+}
+
+.flex__col {
+  display: flex;
+  flex-direction: column;
+}
+
+.upgrade {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+}
+
+.not__enough {
+  opacity: 0.5;
+  text-decoration: line-through;
+  cursor: not-allowed;
+  /* pointer-events: none; */
+  transition: opacity 300ms ease-out;
+}
+
+.enough {
+  opacity: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 300ms ease-out;
+}
