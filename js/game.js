@@ -75,6 +75,7 @@ const factory = {
   onClick: () => {
     income += factory.perClick.production;
     pollution += factory.perClick.pollution;
+    console.log("hello");
   },
   onUpgrade: () => {
     if (income >= upgrades.factory.cost) {
@@ -144,13 +145,12 @@ const tree = {
 };
 
 const addEvents = () => {
-  const { factory, greenTicket, robot, tree } = upgrades;
   factoryBtn.addEventListener("click", factory.onClick);
-  factory.DOMBtn.addEventListener("click", factory.onUpgrade);
+  upgrades.factory.DOMBtn.addEventListener("click", factory.onUpgrade);
   greenTicketBtn.addEventListener("click", greenTicket.onClick);
-  greenTicket.DOMBtn.addEventListener("click", greenTicket.onUpgrade);
-  robot.DOMBtn.addEventListener("click", robot.onClick);
-  tree.DOMBtn.addEventListener("click", tree.onClick);
+  upgrades.greenTicket.DOMBtn.addEventListener("click", greenTicket.onUpgrade);
+  upgrades.robot.DOMBtn.addEventListener("click", robot.onClick);
+  upgrades.tree.DOMBtn.addEventListener("click", tree.onClick);
 };
 
 const gameOver = () => {
@@ -195,7 +195,6 @@ const render = () => {
 const game = () => {
   addEvents();
   render();
-  console.log(upgrades);
 };
 
 game();
