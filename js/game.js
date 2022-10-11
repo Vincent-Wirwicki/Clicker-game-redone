@@ -1,25 +1,7 @@
 const displayIncome = document.querySelector(".ressources__income");
 const displayPollution = document.querySelector(".ressources__pollution");
 const factoryBtn = document.querySelector(".factory__btn");
-const factoryUpgradeBtn = document.querySelector(".factory__upgrade__btn");
-const factoryUpgradeInfo = [
-  ...document.querySelectorAll(".factory__upgrade__info"),
-];
 const greenTicketBtn = document.querySelector(".green__ticket__btn");
-const greenTicketUpgradeBtn = document.querySelector(
-  ".greenTicket__upgrade__btn"
-);
-const greenTicketUpgradeInfo = [
-  ...document.querySelectorAll(".greenTicket__upgrade__info"),
-];
-const robotBtn = document.querySelector(".robot__btn");
-const robotUpgradeBtn = document.querySelector(".robot__upgrade__btn");
-const robotUpgradeInfo = [
-  ...document.querySelectorAll(".robot__upgrade__info"),
-];
-const treeBtn = document.querySelector(".tree__btn");
-const treeUpgradeBtn = document.querySelector(".tree__upgrade__btn");
-const treeUpgradeInfo = [...document.querySelectorAll(".tree__upgrade__info")];
 
 let robotInterval,
   treeinterval,
@@ -38,21 +20,27 @@ class PerClick {
 
 class Upgrade {
   constructor(
-    DOMBtn,
-    DOMDisplay,
+    classBtn,
+    classDisplay,
     cost,
     nextUpgrade,
     pollution,
-    production,
-    isActive
+    production
   ) {
-    this.DOMBtn = DOMBtn;
-    this.DOMDisplay = DOMDisplay;
+    this.classBtn = classBtn;
+    this.classDisplay = classDisplay;
     this.cost = cost;
     this.nextUpgrade = nextUpgrade;
     this.pollution = pollution;
     this.production = production;
-    this.isActive = isActive;
+    this.isActive = false;
+    this.DOMBtn = document.querySelector(this.classBtn);
+    this.DOMElements = [...document.querySelectorAll(this.classDisplay)];
+  }
+  display() {
+    this.DOMElements[0].innerText = this.cost;
+    this.DOMElements[1].innerText = this.production;
+    this.DOMElements[2].innerText = this.pollution;
   }
 }
 
@@ -63,25 +51,23 @@ const cssAddRemoveClass = (el, add, remove) => {
 
 const upgrades = {
   factory: new Upgrade(
-    factoryUpgradeBtn,
-    factoryUpgradeInfo,
+    ".factory__upgrade__btn",
+    ".factory__upgrade__info",
     10,
     2,
     10,
-    10,
-    false
+    10
   ),
   greenTicket: new Upgrade(
-    greenTicketUpgradeBtn,
-    greenTicketUpgradeInfo,
+    ".greenTicket__upgrade__btn",
+    ".greenTicket__upgrade__info",
     5,
     4,
     3,
-    1,
-    false
+    1
   ),
-  robot: new Upgrade(robotBtn, robotUpgradeInfo, 5, 10, 20, 10, false),
-  tree: new Upgrade(treeBtn, treeUpgradeInfo, 30, 15, 40, 20, false),
+  robot: new Upgrade(".robot__btn", ".robot__upgrade__info", 5, 10, 20, 10),
+  tree: new Upgrade(".tree__btn", ".tree__upgrade__info", 30, 15, 40, 20),
 };
 
 const factory = {
@@ -111,7 +97,6 @@ const greenTicket = {
     if (income >= greenTicket.perClick.cost) {
       income -= greenTicket.perClick.cost;
       pollution -= greenTicket.perClick.pollution;
-      greenTicket.displayUpgradeInfo();
     }
   },
   onUpgrade: () => {
@@ -159,12 +144,13 @@ const tree = {
 };
 
 const addEvents = () => {
+  const { factory, greenTicket, robot, tree } = upgrades;
   factoryBtn.addEventListener("click", factory.onClick);
-  factoryUpgradeBtn.addEventListener("click", factory.onUpgrade);
+  factory.DOMBtn.addEventListener("click", factory.onUpgrade);
   greenTicketBtn.addEventListener("click", greenTicket.onClick);
-  greenTicketUpgradeBtn.addEventListener("click", greenTicket.onUpgrade);
-  robotBtn.addEventListener("click", robot.onClick);
-  treeBtn.addEventListener("click", tree.onClick);
+  greenTicket.DOMBtn.addEventListener("click", greenTicket.onUpgrade);
+  robot.DOMBtn.addEventListener("click", robot.onClick);
+  tree.DOMBtn.addEventListener("click", tree.onClick);
 };
 
 const gameOver = () => {
@@ -187,11 +173,8 @@ const treshold = {
 
 const checkUpgrades = () => {
   for (let upgrade in upgrades) {
-    const { cost, DOMBtn, DOMDisplay, production, pollution, isActive } =
-      upgrades[upgrade];
-    DOMDisplay[0].innerText = cost;
-    DOMDisplay[1].innerText = production;
-    DOMDisplay[2].innerText = pollution;
+    const { cost, DOMBtn, isActive } = upgrades[upgrade];
+    upgrades[upgrade].display();
     income >= cost
       ? cssAddRemoveClass(DOMBtn, "enough", "not__enough")
       : cssAddRemoveClass(DOMBtn, "not__enough", "enough");
@@ -212,6 +195,7 @@ const render = () => {
 const game = () => {
   addEvents();
   render();
+  console.log(upgrades);
 };
 
 game();
